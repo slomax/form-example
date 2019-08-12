@@ -1,12 +1,20 @@
 import React from "react";
-import InputWrapper from "./InputWrapper";
-
+import FieldWrapper from "./FieldWrapper";
+import { TextField as MuiTextField } from "@material-ui/core/";
+import { FormField } from "../types/FormField";
 interface TextFieldProps {
   onChange: Function;
+  formField: FormField<any>;
 }
 
 const TextField: React.FC<TextFieldProps> = (props: TextFieldProps) => {
-  return <InputWrapper Input={TextField} onChange={props.onChange} />;
+  return (
+    <FieldWrapper
+      formField={props.formField}
+      Input={MuiTextField}
+      onChange={props.onChange}
+    />
+  );
 };
 
 export default TextField;

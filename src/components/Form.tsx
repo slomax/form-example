@@ -1,15 +1,15 @@
 import React from "react";
-import { Container, Paper, TextField, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import FormField from "../FormField";
-import InputWrapper from "./InputWrapper";
-import Select from "@material-ui/core/Select";
+import { FormField } from "../types/FormField";
 
-interface FormProps {
+interface FormProps<E> {
   formName?: string;
-  formFields: { [s: string]: typeof FormField };
   showButtons?: boolean;
+  children?: JSX.Element | JSX.Element[];
 }
+
+//formFields: { [s: string]: FormField<E> };
 
 const useStyles = makeStyles({
   root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Form: React.FC<FormProps> = (props: FormProps) => {
+const Form: React.FC<FormProps<any>> = (props: FormProps<any>) => {
   const classes = useStyles();
 
   return (
@@ -26,7 +26,8 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
         {props.formName ? props.formName : <hr />}
       </Typography>
       <br />
-      {}
+      {props.children}
+      <br />
       {props.showButtons && (
         <>
           <button>Save</button>
@@ -38,7 +39,8 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
 };
 
 Form.defaultProps = {
-  showButtons: true
+  showButtons: true,
+  children: []
 };
 
 export default Form;
