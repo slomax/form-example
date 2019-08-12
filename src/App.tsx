@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import Person, { FIELD_KEY } from "./forms/Person";
 import { FormField, ValidationRule } from "./types/FormField";
 import * as Validators from "./validators/Common";
+import FormFieldValueDisplay from "./components/FormFieldValueDisplay";
 
 const useStyles = makeStyles({
   root: {
@@ -26,8 +27,13 @@ const App: React.FC = () => {
 
   const onSave = () => {};
 
+  const formFieldValues = Object.values(formFields).map(
+    formField => `${formField.label} : ${formField.value}`
+  );
+
   return (
     <Container className={classes.root} maxWidth="sm">
+      <FormFieldValueDisplay jsonObject={formFieldValues} />
       <Person formFields={formFields} onSave={onSave} />
     </Container>
   );

@@ -1,15 +1,12 @@
 import React from "react";
 import { Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { FormField } from "../types/FormField";
 
 interface FormProps<E> {
   formName?: string;
   showButtons?: boolean;
   children?: JSX.Element | JSX.Element[];
 }
-
-//formFields: { [s: string]: FormField<E> };
 
 const useStyles = makeStyles({
   root: {
