@@ -15,10 +15,7 @@ const FieldWrapper: React.FC<FormFieldProps> = (props: FormFieldProps) => {
       {props.formField.label}
       <br />
       {!props.formField.isValid && <div>{props.formField.errorMessages}</div>}
-      <Input
-        defaultValue={props.formField.value}
-        onChange={props.onChange}
-      ></Input>
+      <Input value={props.formField.value} onChange={props.onChange}></Input>
     </div>
   );
 };

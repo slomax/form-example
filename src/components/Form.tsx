@@ -8,6 +8,7 @@ export interface FormProps {
   showButtons?: boolean;
   children?: JSX.Element | JSX.Element[];
   onSave?: Function;
+  onCancel?: Function;
 }
 
 export interface FormImplementorProps extends FormProps {
@@ -25,6 +26,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
   const classes = useStyles();
 
   const onSave: Function = props.onSave ? props.onSave : () => {};
+  const onCancel: Function = props.onCancel ? props.onCancel : () => {};
 
   return (
     <Paper className={classes.root}>
@@ -37,7 +39,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
       {props.showButtons && (
         <>
           <button onClick={() => onSave()}>Save</button>
-          <button>Cancel</button>
+          <button onClick={() => onCancel()}>Cancel</button>
         </>
       )}
     </Paper>
@@ -46,8 +48,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
 
 Form.defaultProps = {
   showButtons: true,
-  children: [],
-  onSave: () => {}
+  children: []
 };
 
 export default Form;
