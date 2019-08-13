@@ -3,7 +3,7 @@ import { FormField } from "../types/FormField";
 
 export interface FormFieldProps {
   Input: React.ElementType;
-  onChange: Function;
+  onChange?: Function;
   label?: string;
   formField: FormField<any>;
 }
@@ -14,7 +14,11 @@ const FieldWrapper: React.FC<FormFieldProps> = (props: FormFieldProps) => {
     <div>
       {props.formField.label}
       <br />
-      <Input onChange={props.onChange}></Input>
+      {!props.formField.isValid && <div>{props.formField.errorMessages}</div>}
+      <Input
+        defaultValue={props.formField.value}
+        onChange={props.onChange}
+      ></Input>
     </div>
   );
 };
