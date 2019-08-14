@@ -83,13 +83,43 @@ const App: React.FC = () => {
     setKids(newKids);
   };
 
+  const onUpdate = (
+    kidToUpdate: Kid,
+    formFields: { [s: string]: FormField<any> }
+  ) => {
+    const newKid = new Kid(
+      formFields[PERSON_FIELD_KEY.FIRST_NAME].value,
+      formFields[PERSON_FIELD_KEY.LAST_NAME].value
+    );
+    // debugger;
+    const indexOfUpdatedKid: number = kids.indexOf(kidToUpdate);
+    kids.splice(indexOfUpdatedKid, 1, newKid);
+    const newKids = kids
+      .slice(0, indexOfUpdatedKid)
+      .concat(newKid)
+      .concat(kids.slice(indexOfUpdatedKid + 1, kids.length));
+    setKids(newKids);
+  };
+  /*
+  props.onUpdate(selectedKid, formFields);
+   */
+
   return (
     <Container className={classes.root} maxWidth="sm">
       <FormFieldValueDisplay jsonObject={formFieldValues} />
       <FormFieldValueDisplay title="Kids" jsonObject={kidsFieldValues} />
-      <Person formFields={personFormFields} onSave={onSavePerson} />
+      <Person
+        showFormName={true}
+        formFields={personFormFields}
+        onSave={onSavePerson}
+      />
       <Instant formFields={instantFormFields} onSave={onSaveInstant} />
-      <Kids kids={kids} onDelete={onDeleteKid} onAdd={onAdd} />
+      <Kids
+        onUpdate={onUpdate}
+        kids={kids}
+        onDelete={onDeleteKid}
+        onAdd={onAdd}
+      />
     </Container>
   );
 };

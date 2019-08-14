@@ -19,15 +19,14 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { FormField, ValidationRule } from "../types/FormField";
 import * as Validators from "../validators/Common";
-
-export class Kid {
-  constructor(public firstName: string, public lastName: string) {}
-}
+import { Kid } from "./Kids";
 
 interface KidsProps {
   open: boolean;
   onClose: Function;
   onAdd: Function;
+  selectedKid: Kid;
+  isEditing: boolean;
 }
 
 const useStyles = makeStyles({
@@ -36,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-const initialPersonFormFields: { [s: string]: FormField<any> } = {
+const emptyKidFields: { [s: string]: FormField<any> } = {
   [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>("First Name", "", [
     new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)
   ]),
@@ -46,30 +45,34 @@ const initialPersonFormFields: { [s: string]: FormField<any> } = {
 };
 
 const KidModal: React.FC<KidsProps> = (props: KidsProps) => {
-  const classes = useStyles();
-
-  const [formFields, setFormFields] = useState(initialPersonFormFields);
-
-  const handleClose = () => {
-    // setOpen(false);
+  const selectedKidFields: { [s: string]: FormField<any> } = {
+    [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>(
+      "First Name",
+      props.selectedKid.firstName,
+      [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)]
+    ),
+    [PERSON_FIELD_KEY.LAST_NAME]: new FormField<string>(
+      "Last Name",
+      props.selectedKid.lastName,
+      [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)]
+    )
   };
+
+  const [formFields, setFormFields] = useState(selectedKidFields);
 
   const onFieldChange = (formFields: { [s: string]: FormField<any> }) => {
     setFormFields(formFields);
   };
 
+  const saveButtonText: string = props.isEditing ? "Save" : "Add";
+  const titleText: string = props.isEditing ? "Edit" : "Add";
   return (
-    <Dialog
-      open={props.open}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle id="form-dialog-title">Add Kid</DialogTitle>
+    <Dialog open={props.open} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">{titleText} Kid</DialogTitle>
       <DialogContent>
         <Person
           showButtons={false}
-          onSave={handleClose}
-          formFields={formFields}
+          formFields={selectedKidFields}
           showFormName={false}
           onFieldChange={onFieldChange}
         ></Person>
@@ -78,7 +81,7 @@ const KidModal: React.FC<KidsProps> = (props: KidsProps) => {
         <Button
           onClick={() => {
             props.onClose();
-            setFormFields(initialPersonFormFields);
+            setFormFields(emptyKidFields);
           }}
           color="primary"
         >
@@ -87,17 +90,20 @@ const KidModal: React.FC<KidsProps> = (props: KidsProps) => {
         <Button
           onClick={() => {
             props.onAdd(formFields);
-            setFormFields(initialPersonFormFields);
+            setFormFields(emptyKidFields);
           }}
           color="primary"
         >
-          Add
+          {saveButtonText}
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-KidModal.defaultProps = {};
+KidModal.defaultProps = {
+  selectedKid: undefined,
+  isEditing: false
+};
 
 export default KidModal;

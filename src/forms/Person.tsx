@@ -43,9 +43,9 @@ const Person: React.FC<FormImplementorProps> = (
       onCancel={onCancel}
       showButtons={props.showButtons}
       formName={
-        props.formName
-          ? props.formName
-          : "This form will update data after you click save."
+        props.showFormName
+          ? "This form will update data after you click save."
+          : ""
       }
     >
       <TextField

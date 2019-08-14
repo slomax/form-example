@@ -14,7 +14,6 @@ export interface FormProps {
 
 export interface FormImplementorProps extends FormProps {
   formFields: { [s: string]: FormField<any> };
-  onSave: Function;
   onFieldChange?: Function;
 }
 

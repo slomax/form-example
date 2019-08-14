@@ -22,6 +22,7 @@ interface KidsProps {
   onEdit?: Function;
   onDelete?: Function;
   onAdd: Function;
+  onUpdate: Function;
 }
 
 const useStyles = makeStyles({
@@ -34,6 +35,8 @@ const Kids: React.FC<KidsProps> = (props: KidsProps) => {
   const classes = useStyles();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedKid, setSelectedKid] = useState(new Kid("", ""));
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
@@ -42,6 +45,8 @@ const Kids: React.FC<KidsProps> = (props: KidsProps) => {
           Kids (add with modal)
           <button
             onClick={() => {
+              setSelectedKid(new Kid("", ""));
+              setIsEditing(false);
               setModalOpen(true);
             }}
           >
@@ -74,9 +79,9 @@ const Kids: React.FC<KidsProps> = (props: KidsProps) => {
                   </button>
                   <button
                     onClick={() => {
-                      if (props.onEdit) {
-                        props.onEdit(index);
-                      }
+                      setIsEditing(true);
+                      setSelectedKid(row);
+                      setModalOpen(true);
                     }}
                   >
                     edit
@@ -88,14 +93,20 @@ const Kids: React.FC<KidsProps> = (props: KidsProps) => {
         </Table>
       </Paper>
       <KidModal
+        isEditing={isEditing}
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
         }}
         onAdd={(formFields: { [s: string]: FormField<any> }) => {
-          props.onAdd(formFields);
+          if (isEditing) {
+            props.onUpdate(selectedKid, formFields);
+          } else {
+            props.onAdd(formFields);
+          }
           setModalOpen(false);
         }}
+        selectedKid={selectedKid}
       ></KidModal>
     </>
   );

@@ -15,7 +15,9 @@ const Instant: React.FC<FormImplementorProps> = (
   const onFieldChange = (fieldKey: string, value: any) => {
     formFields[fieldKey].value = value;
     //note that we only save the field that changed
-    props.onSave(formFields[fieldKey]);
+    if (props.onSave) {
+      props.onSave(formFields[fieldKey]);
+    }
   };
 
   return (
