@@ -10,10 +10,10 @@ export interface FormProps {
   onSave?: Function;
   onCancel?: Function;
   showFormName?: boolean;
+  formFields: { [s: string]: FormField<any> };
 }
 
 export interface FormImplementorProps extends FormProps {
-  formFields: { [s: string]: FormField<any> };
   onFieldChange?: Function;
 }
 

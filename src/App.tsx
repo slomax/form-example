@@ -16,22 +16,35 @@ const useStyles = makeStyles({
 });
 
 const initialPersonFormFields: { [s: string]: FormField<any> } = {
-  [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>("First Name", "Sean", [
-    new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)
-  ]),
-  [PERSON_FIELD_KEY.LAST_NAME]: new FormField<string>("Last Name", "Lomax", [
-    new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)
-  ])
+  [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>(
+    "First Name",
+    "Sean",
+    [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+    PERSON_FIELD_KEY.FIRST_NAME
+  ),
+  [PERSON_FIELD_KEY.LAST_NAME]: new FormField<string>(
+    "Last Name",
+    "Lomax",
+    [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+    PERSON_FIELD_KEY.LAST_NAME
+  )
 };
 
 const initialInstantFormFields: { [s: string]: FormField<any> } = {
-  [INSTANT_FIELD_KEY.AGE]: new FormField<string>("Age", "34", [
-    new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)
-  ]),
+  [INSTANT_FIELD_KEY.AGE]: new FormField<number>(
+    "Age",
+    34,
+    [
+      new ValidationRule(Validators.REQUIRED_ERROR, Validators.required),
+      new ValidationRule(Validators.NUMBER_ERROR, Validators.number)
+    ],
+    INSTANT_FIELD_KEY.AGE
+  ),
   [INSTANT_FIELD_KEY.FAVORITE_COLOR]: new FormField<string>(
     "Favorite Color",
     "Blue",
-    [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)]
+    [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+    INSTANT_FIELD_KEY.FAVORITE_COLOR
   )
 };
 
@@ -46,12 +59,13 @@ const App: React.FC = () => {
   const [personFormFields, setPersonFormFields] = useState(
     initialPersonFormFields
   );
-
   const [instantFormFields, setInstantFormFields] = useState(
     initialInstantFormFields
   );
-
   const [kids, setKids] = useState(initialKids);
+  const [shouldValidatePersonForm, setShouldValidatePersonForm] = useState(
+    false
+  );
 
   const onSavePerson = (newFieldValues: { [s: string]: FormField<any> }) => {
     setPersonFormFields({ ...newFieldValues });
@@ -91,7 +105,6 @@ const App: React.FC = () => {
       formFields[PERSON_FIELD_KEY.FIRST_NAME].value,
       formFields[PERSON_FIELD_KEY.LAST_NAME].value
     );
-    // debugger;
     const indexOfUpdatedKid: number = kids.indexOf(kidToUpdate);
     kids.splice(indexOfUpdatedKid, 1, newKid);
     const newKids = kids
@@ -100,9 +113,6 @@ const App: React.FC = () => {
       .concat(kids.slice(indexOfUpdatedKid + 1, kids.length));
     setKids(newKids);
   };
-  /*
-  props.onUpdate(selectedKid, formFields);
-   */
 
   return (
     <Container className={classes.root} maxWidth="sm">

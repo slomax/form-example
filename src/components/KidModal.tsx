@@ -36,12 +36,18 @@ const useStyles = makeStyles({
 });
 
 const emptyKidFields: { [s: string]: FormField<any> } = {
-  [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>("First Name", "", [
-    new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)
-  ]),
-  [PERSON_FIELD_KEY.LAST_NAME]: new FormField<string>("Last Name", "", [
-    new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)
-  ])
+  [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>(
+    "First Name",
+    "",
+    [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+    PERSON_FIELD_KEY.FIRST_NAME
+  ),
+  [PERSON_FIELD_KEY.LAST_NAME]: new FormField<string>(
+    "Last Name",
+    "",
+    [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+    PERSON_FIELD_KEY.LAST_NAME
+  )
 };
 
 const KidModal: React.FC<KidsProps> = (props: KidsProps) => {
@@ -49,12 +55,14 @@ const KidModal: React.FC<KidsProps> = (props: KidsProps) => {
     [PERSON_FIELD_KEY.FIRST_NAME]: new FormField<string>(
       "First Name",
       props.selectedKid.firstName,
-      [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)]
+      [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+      PERSON_FIELD_KEY.FIRST_NAME
     ),
     [PERSON_FIELD_KEY.LAST_NAME]: new FormField<string>(
       "Last Name",
       props.selectedKid.lastName,
-      [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)]
+      [new ValidationRule(Validators.REQUIRED_ERROR, Validators.required)],
+      PERSON_FIELD_KEY.LAST_NAME
     )
   };
 

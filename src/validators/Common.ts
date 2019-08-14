@@ -8,3 +8,8 @@ export function required<Boolean>(value:any){
             return value !== null && value !== undefined;
     }
 }
+
+export const NUMBER_ERROR = 'This field must be a number.';
+export function number<Boolean>(value:number) {
+    return isNaN(value);
+}
