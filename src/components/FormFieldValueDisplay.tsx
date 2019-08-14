@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 
 interface JsonDisplayProps {
   jsonObject: object;
+  title?: string;
 }
 
 const useStyles = makeStyles({
@@ -18,7 +19,7 @@ const JsonDisplay: React.FC<JsonDisplayProps> = (props: JsonDisplayProps) => {
   return (
     <Paper className={classes.root}>
       <Typography variant="h5" component="h3">
-        Data
+        {props.title ? props.title : "Data"}
       </Typography>
       <br />
       <pre>{JSON.stringify(props.jsonObject, null, 2)}</pre>

@@ -25,6 +25,9 @@ const Person: React.FC<FormImplementorProps> = (
       value
     );
     setFormFields(newFields);
+    if (props.onFieldChange) {
+      props.onFieldChange(newFields);
+    }
   };
 
   const onSave: Function = props.onSave ? props.onSave : () => {};
@@ -38,8 +41,12 @@ const Person: React.FC<FormImplementorProps> = (
         onSave(formFields);
       }}
       onCancel={onCancel}
-      showButtons={true}
-      formName="This form will update data after you click save."
+      showButtons={props.showButtons}
+      formName={
+        props.formName
+          ? props.formName
+          : "This form will update data after you click save."
+      }
     >
       <TextField
         formField={formFields[PERSON_FIELD_KEY.FIRST_NAME]}

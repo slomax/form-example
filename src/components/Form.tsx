@@ -9,11 +9,13 @@ export interface FormProps {
   children?: JSX.Element | JSX.Element[];
   onSave?: Function;
   onCancel?: Function;
+  showFormName?: boolean;
 }
 
 export interface FormImplementorProps extends FormProps {
   formFields: { [s: string]: FormField<any> };
   onSave: Function;
+  onFieldChange?: Function;
 }
 
 const useStyles = makeStyles({
@@ -31,12 +33,12 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
   return (
     <Paper className={classes.root}>
       <Typography variant="h5" component="h3">
-        {props.formName ? props.formName : <hr />}
+        {props.showFormName ? props.formName : <hr />}
       </Typography>
       <br />
       {props.children}
       <br />
-      {props.showButtons && (
+      {props.showButtons === true && (
         <>
           <button onClick={() => onSave()}>Save</button>
           <button onClick={() => onCancel()}>Cancel</button>
@@ -48,7 +50,8 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
 
 Form.defaultProps = {
   showButtons: true,
-  children: []
+  children: [],
+  showFormName: true
 };
 
 export default Form;
